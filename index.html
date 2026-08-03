@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PMPML Pass UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#2b2b2b;
+    }
+
+    .mobile-frame{
+      width:340px;
+      background:#d68be8;
+      border-radius:22px;
+      padding:14px;
+      box-shadow:0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .top-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:14px;
+      color:#3d2d3d;
+      font-size:14px;
+    }
+
+    .close-btn{
+      border:none;
+      background:none;
+      font-size:22px;
+      cursor:pointer;
+      color:#4d3a4d;
+    }
+
+    .header-links{
+      display:flex;
+      gap:20px;
+      font-weight:600;
+      text-decoration:underline;
+    }
+
+    .ticket-card{
+      background:#fff;
+      border-radius:14px;
+      overflow:hidden;
+      position:relative;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .ticket-header{
+      background:#d93737;
+      color:#fff;
+      text-align:center;
+      padding:10px;
+      font-size:18px;
+      font-weight:bold;
+    }
+
+    .ticket-info{
+      padding:18px;
+    }
+
+    .info-top{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+
+    .label{
+      color:#777;
+      font-size:14px;
+      margin-bottom:5px;
+    }
+
+    .value{
+      font-size:18px;
+      font-weight:bold;
+    }
+
+    .fare{
+      text-align:right;
+    }
+
+    .dashed{
+      border-top:2px dashed #ddd;
+      margin:10px 0 20px;
+      position:relative;
+    }
+
+    .circle-left,
+    .circle-right{
+      width:28px;
+      height:28px;
+      background:#d68be8;
+      border-radius:50%;
+      position:absolute;
+      top:-14px;
+    }
+
+    .circle-left{
+      left:-28px;
+    }
+
+    .circle-right{
+      right:-28px;
+    }
+
+    .time-section{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:20px;
+    }
+
+    .time-section .value{
+      font-size:15px;
+    }
+
+    .ticket-id{
+      text-align:center;
+      color:#555;
+      margin-bottom:18px;
+      font-size:20px;
+    }
+
+    .pass-strip{
+      background:#d93737;
+      color:#fff;
+      text-align:center;
+      padding:8px;
+      font-weight:bold;
+      font-size:22px;
+    }
+
+    .logo-section{
+      text-align:center;
+      padding:35px 20px;
+    }
+
+    .logo-circle{
+    width:170px;
+    height:170px;
+    margin:auto;
+    background-image:url("logo copy.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+
+    animation: pulseZoom 4s infinite ease-in-out;
+}
+
+/* Extra Large Zoom Animation */
+@keyframes pulseZoom{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.9);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+    .expire-text{
+      margin-top:20px;
+      color:#444;
+      font-size:18px;
+    }
+
+    .qr-btn{
+      margin-top:14px;
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#eef6df;
+      color:#2c5720;
+      font-size:20px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .qr-btn:hover{
+      background:#e3f0cd;
+    }
+
+  </style>
+<!-- 
+<script>
+
+    // Current System Date & Time
+    const now = new Date();
+
+    // Expiry After 1 Hour 30 Minutes
+    const expiryTime = new Date(
+        now.getTime() + (1 * 60 * 60 * 1000) + (30 * 60 * 1000)
+    );
+
+    function updateTimer(){
+
+        const currentTime = new Date();
+
+        // Remaining Time
+        const diff = expiryTime - currentTime;
+
+        // Expired
+        if(diff <= 0){
+            document.getElementById("timer").innerText = "00:00:00";
+            return;
+        }
+
+        // Convert Time
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Show Timer
+        document.getElementById("timer").innerText =
+            `${String(hours).padStart(2,'0')}:` +
+            `${String(minutes).padStart(2,'0')}:` +
+            `${String(seconds).padStart(2,'0')}`;
+    }
+
+    // Update Every Second
+    setInterval(updateTimer,1000);
+
+    updateTimer();
+
+</script> -->
+</head>
+
+<body>
+
+  <div class="mobile-frame">
+
+    <div class="top-header">
+      <button class="close-btn">✕</button>
+
+      <div class="header-links">
+        <span>Need Help?</span>
+        <span>All passes</span>
+      </div>
+    </div>
+
+    <div class="ticket-card">
+
+      <div class="ticket-header">
+        पुणे महानगर परिवहन महामंडळ लि.
+      </div>
+
+      <div class="ticket-info">
+
+        <div class="info-top">
+
+          <div>
+            <div class="label">Pass Type</div>
+            <div class="value">PMC & PCMC</div>
+          </div>
+
+          <div>
+            <div class="label">ID</div>
+            <div class="value">8310</div>
+          </div>
+
+          <div class="fare">
+            <div class="label">Fare</div>
+            <div class="value">₹70.83</div>
+          </div>
+
+        </div>
+
+        <div class="dashed">
+          <div class="circle-left"></div>
+          <div class="circle-right"></div>
+        </div>
+
+        <div class="time-section">
+
+          <div>
+            <div class="label">Booking Time</div>
+            <div class="value">03 Aug, 26 | 07:50 AM</div>
+          </div>
+
+          <div>
+            <div class="label">Validity Time</div>
+            <div class="value">03 Aug, 26 | 11:59 PM</div>
+          </div>
+
+        </div>
+
+        <div class="ticket-id">
+          2604180753UVR30Q
+        </div>
+
+      </div>
+
+      <div class="pass-strip">
+        One Day Pass
+      </div>
+
+      <div class="logo-section">
+
+        <div class="logo-circle"></div>
+
+        <div class="expire-text">
+          Expires in <span id="timer">14:19:00</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <button class="qr-btn">
+      <i class="fa-solid fa-qrcode"></i> Show QR code
+    </button>
+
+  </div>
+<!-- 
+  <script>
+    let time = 13 * 60 * 60 + 29 * 60 + 29;
+
+    function updateTimer() {
+
+      let hours = Math.floor(time / 3600);
+      let minutes = Math.floor((time % 3600) / 60);
+      let seconds = time % 60;
+
+      hours = String(hours).padStart(2, "0");
+      minutes = String(minutes).padStart(2, "0");
+      seconds = String(seconds).padStart(2, "0");
+
+      document.getElementById("timer").innerText =
+        `${hours}:${minutes}:${seconds}`;
+
+      if(time > 0){
+        time--;
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script> -->
+
+<script>
+
+    // Current System Time
+    const now = new Date();
+
+    // Expire After 16 Hours 29 Minutes
+    const expiryTime = new Date(
+        now.getTime() +
+        (16 * 60 * 60 * 1000) +   // 16 Hours
+        (29 * 60 * 1000)          // 29 Minutes
+    );
+
+    function updateTimer() {
+
+        const currentTime = new Date();
+
+        // Remaining Time
+        const diff = expiryTime - currentTime;
+
+        // If Expired
+        if (diff <= 0) {
+            document.getElementById("timer").innerText = "00:00:00";
+            return;
+        }
+
+        // Convert Time
+        let hours = Math.floor(diff / (1000 * 60 * 60));
+        let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Format Time
+        hours = String(hours).padStart(2, "0");
+        minutes = String(minutes).padStart(2, "0");
+        seconds = String(seconds).padStart(2, "0");
+
+        document.getElementById("timer").innerText =
+            `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+</script>
+</body>
+</html>
